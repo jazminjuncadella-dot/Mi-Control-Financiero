@@ -1,4 +1,4 @@
-name: Generar APK
+name: Generar APK V2
 
 on:
   workflow_dispatch:
@@ -26,23 +26,21 @@ jobs:
           yes | "$SDKMANAGER" --licenses || true
           "$SDKMANAGER" "platforms;android-35" "build-tools;35.0.0"
 
-      - name: Descomprimir proyecto
+      - name: Descomprimir V2
         run: |
-          ZIP_FILE=$(find . -maxdepth 1 -name 'Mi_Control_Financiero_GitHub_APK_Builder*.zip' | head -n 1)
-          echo "Usando: $ZIP_FILE"
-          unzip "$ZIP_FILE"
+          unzip -o Mi_Control_Financiero_GitHub_APK_Builder_V2.zip
 
       - name: Configurar Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
 
-      - name: Generar APK
+      - name: Generar APK V2
         working-directory: Mi_Control_Financiero_Android
         run: gradle :app:assembleDebug --stacktrace
 
-      - name: Guardar APK
+      - name: Guardar APK V2
         uses: actions/upload-artifact@v4
         with:
-          name: Mi-Control-Financiero-APK
+          name: Mi-Control-Financiero-V2-APK
           path: Mi_Control_Financiero_Android/app/build/outputs/apk/debug/app-debug.apk
